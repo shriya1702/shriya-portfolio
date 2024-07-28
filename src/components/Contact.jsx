@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    reply_to: '',
     message: '',
   });
 
@@ -22,8 +23,12 @@ const Contact = () => {
     emailjs.send(
       'service_6j718e7', // Replace with your service ID
       'template_unweb9l', // Replace with your template ID
-      formData,
-      'bQoNI03aqMsNbVLnk'     // Replace with your user ID
+      {
+        from_name: formData.from_name,
+        reply_to: formData.reply_to,
+        message: formData.message
+      },
+      'bQoNI03aqMsNbVLnk' // Public Key from EmailJS
     )
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text);
@@ -35,8 +40,8 @@ const Contact = () => {
     });
 
     setFormData({
-      name: '',
-      email: '',
+      from_name: '',
+      reply_to: '',
       message: ''
     });
   };
@@ -48,15 +53,18 @@ const Contact = () => {
         <p className="mt-4 text-lg">
           Feel free to reach out to me at <a href="mailto:skshreyakapil@gmail.com" className="text-blue-500">skshreyakapil@gmail.com</a>
         </p>
-       
+        <div className="mt-8 flex space-x-4">
+          <a href="https://www.linkedin.com/in/shriya-kapil-8123071b6" className="text-blue-500 hover:underline">LinkedIn</a>
+          <a href="https://github.com/shriya1702" className="text-blue-500 hover:underline">GitHub</a>
+        </div>
         <div className="mt-8">
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
             <div>
               <label className="block text-lg font-medium text-gray-200">Name</label>
               <input
                 type="text"
-                name="name"
-                value={formData.name}
+                name="from_name"
+                value={formData.from_name}
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-gray-200 focus:outline-none focus:ring focus:border-blue-500"
                 required
@@ -66,8 +74,8 @@ const Contact = () => {
               <label className="block text-lg font-medium text-gray-200">Email</label>
               <input
                 type="email"
-                name="email"
-                value={formData.email}
+                name="reply_to"
+                value={formData.reply_to}
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-gray-200 focus:outline-none focus:ring focus:border-blue-500"
                 required
